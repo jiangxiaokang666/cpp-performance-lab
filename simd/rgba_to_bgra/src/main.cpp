@@ -131,6 +131,16 @@ int main() {
         print_result("AVX2", avx2_time, bytes);
         std::cout << "AVX2 speedup: " << std::fixed << std::setprecision(2)
                   << scalar_time / avx2_time << "x\n";
+
+        const double avx2_nt_time =
+            benchmark(rgba_to_bgra_avx2_nt, rgba, simd_output, iterations);
+        if (scalar_output != simd_output) {
+            std::cerr << "ERROR: AVX2-NT output differs from scalar output\n";
+            return 1;
+        }
+        print_result("AVX2-NT", avx2_nt_time, bytes);
+        std::cout << "AVX2-NT speedup: " << std::fixed << std::setprecision(2)
+                  << scalar_time / avx2_nt_time << "x\n";
     } else {
         std::cout << "AVX2: CPU or operating system does not support AVX2; skipped.\n";
     }
